@@ -11,8 +11,24 @@ response = requests.get(url, headers=headers, verify=False)
 
 soup = BeautifulSoup(response.text, "html.parser")
 
-div = soup.findAll("div", {"class": "bix-div-container"})
+divs = soup.findAll("div", {"class": "bix-div-container"})
 
-questions = div.findAll("div", {"class": "bix-td-qtxt table-responsive w-100"})
+div = divs[0]
 
-print(type(div))
+question = div.find("div", {"class": "bix-td-qtxt table-responsive w-100"})
+options = div.findAll("div", {"class": "flex-wrap"})
+answer = div.find("input", {"class": "jq-hdnakq"})
+
+
+""" if question:
+    # Do something with the question
+    print(question.text)
+    for option in options:
+        print(option.text)
+        
+
+print("Answer: ", answer.get("value")) """
+
+#explanation = div.find("div", {"class": "bix-ans-description table-responsive"})
+explanation = div.find("table", {"class": "ga-tbl-answer"})
+print(explanation.text)
