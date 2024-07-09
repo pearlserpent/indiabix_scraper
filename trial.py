@@ -1,4 +1,5 @@
 import requests
+from PIL import Image
 from bs4 import BeautifulSoup
 
 headers = {
@@ -29,6 +30,15 @@ answer = div.find("input", {"class": "jq-hdnakq"})
 
 print("Answer: ", answer.get("value")) """
 
-#explanation = div.find("div", {"class": "bix-ans-description table-responsive"})
-explanation = div.find("table", {"class": "ga-tbl-answer"})
-print(explanation.text)
+#
+#print(question)
+
+## As the explanation contains iamges and gifs for brackets and other symbols
+## it is hard to parse and save the text from it
+## So the best option is to currently save the explanation in the html format
+## and store the symbols in a folder in the similar directory as of the website
+## for example - <td class="ga-td-line" rowspan="2"><img src="/_files/images/aptitude/1-sym-oparen-h1.gif"/></td>
+
+explanation = div.find("div", {"class": "bix-ans-description table-responsive"})
+#explanation = div.find("table", {"class": "ga-tbl-answer"})
+print(explanation)
