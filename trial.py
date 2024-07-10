@@ -1,14 +1,14 @@
+import certifi
 import requests
-from PIL import Image
 from bs4 import BeautifulSoup
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.142.86 Safari/537.36",
 }
 
-url = "https://www.indiabix.com/aptitude/problems-on-trains/"
+url = "https://www.indiabix.com/aptitude/problems-on-trains"
 
-response = requests.get(url, headers=headers, verify=False)
+response = requests.get(url, headers=headers,  verify=certifi.where())
 
 soup = BeautifulSoup(response.text, "html.parser")
 
@@ -41,4 +41,16 @@ print("Answer: ", answer.get("value")) """
 
 explanation = div.find("div", {"class": "bix-ans-description table-responsive"})
 #explanation = div.find("table", {"class": "ga-tbl-answer"})
-print(explanation)
+#print(explanation)
+
+images = explanation.findAll("img")
+for image in images:
+    image_url = "https://www.indiabix.com" + image.get('src')
+    print(image_url)
+
+    img_data = requests.get(image_url, verify=certifi.where()).content
+    img_name = image_url.split("/")[-1:][0]
+    print(img_name)
+
+    with open(img_name, 'wb') as handler:
+        handler.write(img_data) 
